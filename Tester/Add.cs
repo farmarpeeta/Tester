@@ -9,6 +9,7 @@ public class Add
 		question();
 	}
 	private void question() {
+        // Vytvoření adresáře pro otázky, pokud neexistuje
         string directoryPath = Directory.GetCurrentDirectory() + "\\Questions";
         if (!Directory.Exists(directoryPath))
         {
@@ -16,37 +17,46 @@ public class Add
         }
 
         while (true) {
+            // Získání seznamu adresářů v cestě
             string[] directories = Directory.GetDirectories(directoryPath);
             int directoryCount = directories.Length;
+
+            // Vyčištění konzole a zobrazení základní nabídky pro přidání otázky
             Console.Clear();
             Console.WriteLine("PŘIDÁVÁNÍ OTÝZKY");
             Console.WriteLine("Zvolte okruh:");
             Console.WriteLine("1) zpět do menu");
             Console.WriteLine("2) nový okruh");
 
+            // Výpis dostupných okruhů
             for (int i = 0; i < directoryCount; i++)
             {
                 Console.WriteLine($"{i + 3}) {Path.GetFileNameWithoutExtension(directories[i])}");
             }
-            Console.WriteLine("Vaše volba:");
 
+            // Čtení uživatelského vstupu
+            Console.WriteLine("Vaše volba:");
             string inputLine = Console.ReadLine();
 
+            // Ověření, že vstup je platné číslo
             if (!int.TryParse(inputLine, out int input))
             {
                 Console.WriteLine("Zadej platné číslo.");
                 Console.WriteLine();
                 Thread.Sleep(1000);
             }
+            // Zpracování vstupu
             if (input == 1)
             {
                 break;
             }else if(input == 2)
             {
+                // Vytvoření nového okruhu
                 Console.WriteLine("Zadejte název nového okruhu:");
                 string category = Console.ReadLine();
                 Directory.CreateDirectory(directoryPath + "\\" + category);
 
+                // Vytvoření souborů pro různé typy otázek
                 List<CQuestion> cQuestions = new List<CQuestion> { };
                 string json = JsonSerializer.Serialize(cQuestions, new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(directoryPath + "\\" + category + "\\cquestions.json", json);
@@ -66,7 +76,10 @@ public class Add
                 bool falg = true;
                 while (falg)
                 {
+                    // Získání názvu kategorie z vybraného adresáře
                     string category = Path.GetFileNameWithoutExtension(directories[(input) - 3]);
+
+                    // Vyčištění konzole a zobrazení nabídky pro výběr typu otázky
                     Console.WriteLine("Vyber typ otázky:");
                     Console.WriteLine("1) Uzavřená otázka");
                     Console.WriteLine("2) Otevřená otázka");
@@ -74,6 +87,7 @@ public class Add
                     Console.WriteLine("Vaše volba:");
                     string inputLine2 = Console.ReadLine();
 
+                    // Ověření, že vstup je platné číslo
                     if (!int.TryParse(inputLine2, out int input2))
                     {
                         Console.WriteLine("Zadej platné číslo.");
@@ -82,6 +96,7 @@ public class Add
                         continue; // Zpět na začátek cyklu
                     }
 
+                    // Zpracování vstupu pro typ otázky
                     switch (input2)
                     {
                         case 1:
@@ -151,6 +166,7 @@ public class Add
                                     else;
                                 }
                             }
+                            // Kontrola, že jsou zadány alespoň dvě správné odpovědi(volitelné)
                             Console.WriteLine(corrects.Count);
                             Thread.Sleep(2000);
                             Multiple multipleQuestion = new Multiple(question, corrects.ToArray(), wrongs.ToArray());

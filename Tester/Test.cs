@@ -14,29 +14,41 @@ public class Test
 
         while (true)
         {
+            // Získání seznamu adresářů v cestě
             string[] directories = Directory.GetDirectories(directoryPath);
             int directoryCount = directories.Length;
+
+            // Vyčištění konzole a zobrazení základní nabídky pro testování otázek
             Console.Clear();
             Console.WriteLine("TESTOVÁNÍ OTÁZEK");
             Console.WriteLine("Zvolte okruh:");
             Console.WriteLine("1) zpět do menu");
+
+            //vypsání dostupných okruhů
             for (int i = 0; i < directoryCount; i++)
             {
                 Console.WriteLine($"{i + 2}) {Path.GetFileNameWithoutExtension(directories[i])}");
             }
+
+            // Čtení uživatelského vstupu
             Console.WriteLine("Vaše volba:");
             string inputLine = Console.ReadLine();
+
+            // Ověření, že vstup je platné číslo
             if (!int.TryParse(inputLine, out int input))
             {
                 Console.WriteLine("Zadej platné číslo.");
                 Console.WriteLine();
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
                 continue; // Zpět na začátek cyklu
             }
             if (input == 1)
                 break;
+
+            // Zpracování vstupu
             else if (input > 1 && input <= directoryCount + 1)
             {
+                // Přidání uzavřených otázek do seznamu
                 string category = Path.GetFileNameWithoutExtension(directories[input - 2]);
                 string load = File.ReadAllText(directoryPath + "\\" + category + "\\cquestions.json");
                 List<CQuestion> cQuestions = JsonSerializer.Deserialize<List<CQuestion>>(load);
@@ -46,6 +58,8 @@ public class Test
                     Question q = cQuestions[i];
                     questions.Add(q);
                 }
+
+                // Přidání multiplechoice otázek do seznamu
                 load = File.ReadAllText(directoryPath + "\\" + category + "\\mquestions.json");
                 List<Multiple> mQuestions = JsonSerializer.Deserialize<List<Multiple>>(load);
                 for (int i = 0; i < mQuestions.Count; i++)
@@ -53,6 +67,8 @@ public class Test
                     Question q = mQuestions[i];
                     questions.Add(q);
                 }
+
+                // Přidání otevřených otázek do seznamu
                 load = File.ReadAllText(directoryPath + "\\" + category + "\\oquestions.json");
                 List<OQuestion> oQuestions = JsonSerializer.Deserialize<List<OQuestion>>(load);
                 for (int i = 0; i < oQuestions.Count; i++)
@@ -63,8 +79,11 @@ public class Test
                 Random rng = new Random();
                 int countCorrect = 0; // Počet správných odpovědí
 
+                // Zobrazit otázky a zpracovat odpovědi
                 foreach (Question q in questions)
                 {
+
+                    // Zobrazit uazvřenou otázku a získat odpověď od uživatele
                     if (q is CQuestion cQ)
                     {
                         Console.Clear();
@@ -94,6 +113,8 @@ public class Test
                             Thread.Sleep(2000);
                         }
                     }
+
+                    // Zobrazit otevřenou otázku a získat odpověď od uživatele
                     else if (q is OQuestion oQ)
                     {
                         Console.Clear();
@@ -113,6 +134,8 @@ public class Test
                             Thread.Sleep(2000);
                         }
                     }
+
+                    // Zobrazit multiplechoice otázku a získat odpověď od uživatele
                     else if (q is Multiple mQ)
                     {
                         Console.Clear();
@@ -144,6 +167,8 @@ public class Test
                         }
                     }
                 }
+
+                // Test dokončen, zobrazit výsledky
                 Console.Clear();
                 Console.WriteLine("Test dokončen!");
                 Console.WriteLine($"Počet správných odpovědí: {countCorrect} z {questions.Count}");
