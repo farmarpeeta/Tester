@@ -88,6 +88,7 @@ public class Test
                     {
                         Console.Clear();
                         Console.WriteLine("Otázka: " + cQ.question);
+                        Console.WriteLine("1) pro ukončení");
                         List<string> options = new List<string>(cQ.wrong);
                         options.Add(cQ.correct); // Přidáme správnou odpověď
 
@@ -107,11 +108,14 @@ public class Test
                             countCorrect++;
                             Thread.Sleep(2000);
                         }
-                        else
-                        {
-                            Console.WriteLine("Špatně! Správná odpověď je: " + cQ.correct);
-                            Thread.Sleep(2000);
+                        else if (Int32.Parse(input1) == 1){
+                            break;
                         }
+                    else
+                    {
+                        Console.WriteLine("Špatně! Správná odpověď je: " + cQ.correct);
+                        Thread.Sleep(2000);
+                    }
                     }
 
                     // Zobrazit otevřenou otázku a získat odpověď od uživatele
@@ -119,6 +123,7 @@ public class Test
                     {
                         Console.Clear();
                         Console.WriteLine("Otázka: " + oQ.question);
+                        Console.WriteLine("1) pro ukončení");
                         Console.WriteLine("Vaše odpověď:");
                         string answer = oQ.correct;
                         string input2 = Console.ReadLine();
@@ -127,6 +132,10 @@ public class Test
                             Console.WriteLine("Správně!");
                             countCorrect++;
                             Thread.Sleep(2000);
+                        }
+                        else if (Int32.Parse(input2) == 1)
+                        {
+                            break;
                         }
                         else
                         {
@@ -146,6 +155,7 @@ public class Test
                         }
                         options = options.OrderBy(item => rng.Next()).ToList();
                         Console.WriteLine("Otázka: " + mQ.question);
+                        Console.WriteLine("1) pro ukončení");
                         Console.WriteLine("Možnosti:");
                         for (int i = 0; i < options.Count; i++)
                         {
@@ -159,6 +169,10 @@ public class Test
                             Console.WriteLine("Správné odpovědi jsou: " + string.Join(", ", mQ.correct));
                             countCorrect++;
                             Thread.Sleep(2000);
+                        }
+                        else if (Int32.Parse(input1) == 1)
+                        {
+                            break;
                         }
                         else
                         {

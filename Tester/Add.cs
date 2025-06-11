@@ -23,7 +23,7 @@ public class Add
 
             // Vyčištění konzole a zobrazení základní nabídky pro přidání otázky
             Console.Clear();
-            Console.WriteLine("PŘIDÁVÁNÍ OTÝZKY");
+            Console.WriteLine("PŘIDÁVÁNÍ OTÁZKY");
             Console.WriteLine("Zvolte okruh:");
             Console.WriteLine("1) zpět do menu");
             Console.WriteLine("2) nový okruh");
@@ -51,6 +51,7 @@ public class Add
                 break;
             }else if(input == 2)
             {
+                Console.Clear();
                 // Vytvoření nového okruhu
                 Console.WriteLine("Zadejte název nového okruhu:");
                 string category = Console.ReadLine();
@@ -76,6 +77,7 @@ public class Add
                 bool falg = true;
                 while (falg)
                 {
+                    Console.Clear();
                     // Získání názvu kategorie z vybraného adresáře
                     string category = Path.GetFileNameWithoutExtension(directories[(input) - 3]);
 
@@ -100,14 +102,19 @@ public class Add
                     switch (input2)
                     {
                         case 1:
+                            Console.Clear();
                             Console.WriteLine("Zadejte otázku:");
                             string question = Console.ReadLine();
+                            Console.Clear();
                             Console.WriteLine("Zadejte správnou odpověď:");
                             string correct = Console.ReadLine();
+                            Console.Clear();
                             Console.WriteLine("Zadejte špatnou odpověď:");
                             string wrong1 = Console.ReadLine();
+                            Console.Clear();
                             Console.WriteLine("Zadejte špatnou odpověď:");
                             string wrong2 = Console.ReadLine();
+                            Console.Clear();
                             Console.WriteLine("Zadejte špatnou odpověď:");
                             string wrong3 = Console.ReadLine();
                             CQuestion closedQuestion = new CQuestion(question, correct, [wrong1, wrong2, wrong3]);
@@ -120,8 +127,10 @@ public class Add
                             falg = false;
                             break;
                         case 2:
+                            Console.Clear();
                             Console.WriteLine("Zadejte otázku:");
                             question = Console.ReadLine();
+                            Console.Clear();
                             Console.WriteLine("Zadejte správnou odpověď:");
                             string answear = Console.ReadLine();
                             OQuestion openedQuestion = new OQuestion(question, answear);
@@ -134,6 +143,7 @@ public class Add
                             falg = false;
                             break;
                         case 3:
+                            Console.Clear();
                             Console.WriteLine("Zadejte otázku:");
                             question = Console.ReadLine();
                             List<string> corrects = new List<string> { };
@@ -141,8 +151,10 @@ public class Add
                             for (int i = 0; i < 4; i++) {
                                 while (true) 
                                 {
+                                    Console.Clear();
                                     Console.WriteLine("Zadejte odpověď (správnou nebo špatnou):");
                                     answear = Console.ReadLine();
+                                    Console.Clear();
                                     Console.WriteLine("Je to (1)správná nebo (2)špatná odpově");
                                     string inputLine3 = Console.ReadLine();
 
@@ -167,7 +179,8 @@ public class Add
                                 }
                             }
                             // Kontrola, že jsou zadány alespoň dvě správné odpovědi(volitelné)
-                            Console.WriteLine(corrects.Count);
+                            Console.Clear();
+                            Console.WriteLine("Počet správných odpovědí je:" + corrects.Count);
                             Thread.Sleep(2000);
                             Multiple multipleQuestion = new Multiple(question, corrects.ToArray(), wrongs.ToArray());
                             nacteny = File.ReadAllText(directoryPath + "\\" + category + "\\mquestions.json");
